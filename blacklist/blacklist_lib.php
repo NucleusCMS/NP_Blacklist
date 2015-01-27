@@ -146,10 +146,10 @@ function pbl_blacklisteditor() {
 			$value = $configParam[1];
 			if (strlen($key) > 0) {
 				echo "<tr>\n";
-				echo "<td>".htmlspecialchars($key, ENT_QUOTES)."</td>\n";
-				echo "<td>".htmlspecialchars($value, ENT_QUOTES)."</td>\n";
+				echo "<td>".htmlspecialchars($key, ENT_QUOTES,_CHARSET)."</td>\n";
+				echo "<td>".htmlspecialchars($value, ENT_QUOTES,_CHARSET)."</td>\n";
 				echo "<td>";
-				echo "<a href=\"".htmlspecialchars($manager->addTicketToUrl(serverVar('PHP_SELF')."?action=deleteexpression&line=".$line), ENT_QUOTES)."\">".NP_BLACKLIST_delete."</a>";
+				echo "<a href=\"".htmlspecialchars($manager->addTicketToUrl(serverVar('PHP_SELF')."?action=deleteexpression&line=".$line), ENT_QUOTES,_CHARSET)."\">".NP_BLACKLIST_delete."</a>";
 				echo "</td>";
 				echo "</tr>\n";
 			}
@@ -226,18 +226,18 @@ function pbl_addpersonal() {
 				$expression = preg_quote($expression, '/');
 			}
 			if ($enable_regex && (!pbl_checkregexp($expression))) {
-				return "<div class=\"pblmessage\">".NP_BLACKLIST_containdError.": <b>".htmlspecialchars($expression, ENT_QUOTES)."</b></div>\n";
+				return "<div class=\"pblmessage\">".NP_BLACKLIST_containdError.": <b>".htmlspecialchars($expression, ENT_QUOTES,_CHARSET)."</b></div>\n";
 			} else {
 				$existTest = pbl_checkforspam($expression);
 				if (strlen($existTest) > 0) {
-					return "<div class=\"pblmessage\"><b>".htmlspecialchars($expression, ENT_QUOTES)."</b> ".NP_BLACKLIST_alreadyMatched.": <b>$existTest</b></div>\n";
+					return "<div class=\"pblmessage\"><b>".htmlspecialchars($expression, ENT_QUOTES,_CHARSET)."</b> ".NP_BLACKLIST_alreadyMatched.": <b>$existTest</b></div>\n";
 				} else {
 					pbl_addexpression($expression, $comment);
-					return "<div class=\"pblmessage\">".NP_BLACKLIST_newEntryAdded.": <b>".htmlspecialchars($expression, ENT_QUOTES)."</b></div>";
+					return "<div class=\"pblmessage\">".NP_BLACKLIST_newEntryAdded.": <b>".htmlspecialchars($expression, ENT_QUOTES,_CHARSET)."</b></div>";
 				}
 			}
 		} else {
-			return "<div class=\"pblmessage\">".NP_BLACKLIST_emptyExpression.": <b>".htmlspecialchars($expression, ENT_QUOTES)."</b></div>";
+			return "<div class=\"pblmessage\">".NP_BLACKLIST_emptyExpression.": <b>".htmlspecialchars($expression, ENT_QUOTES,_CHARSET)."</b></div>";
 		}
 	}
 	return '';
@@ -504,7 +504,7 @@ function pbl_showIp($type = 'block') {
 			echo "<tr><td>".$ip."</td><td>[".gethostbyaddr(rtrim($ip))."]</td><td>";
 		else
 			echo "<tr><td>".$ip."</td><td>[<em>skipped</em>]</td><td>";
-		echo "<a href=\"".htmlspecialchars($manager->addTicketToUrl(serverVar('PHP_SELF').'?action=deleteip'.$type.'&line='.$line), ENT_QUOTES)."\">".NP_BLACKLIST_delete."</a>";
+		echo "<a href=\"".htmlspecialchars($manager->addTicketToUrl(serverVar('PHP_SELF').'?action=deleteip'.$type.'&line='.$line), ENT_QUOTES,_CHARSET)."\">".NP_BLACKLIST_delete."</a>";
 		echo "</td></tr>";
 	}
 }
@@ -512,7 +512,7 @@ function pbl_showIp($type = 'block') {
 function pbl_addIp($type = 'block') {
 	if (isset ($_POST["ipaddress"])) {
 		pbl_suspectIP(0, postVar("ipaddress"), $type);
-		return "<div class=\"pblmessage\">".NP_BLACKLIST_newEntryAdded.": <b>".htmlspecialchars(postVar("ipaddress"), ENT_QUOTES)."</b></div>";
+		return "<div class=\"pblmessage\">".NP_BLACKLIST_newEntryAdded.": <b>".htmlspecialchars(postVar("ipaddress"), ENT_QUOTES,_CHARSET)."</b></div>";
 	}
 	return '';
 }
@@ -610,7 +610,7 @@ function pbl_test() {
 	// test's user input, no loggin.
 	if (isset ($_POST["expression"])) {
 		if (postVar("expression") != "") {
-			$pblmessage = NP_BLACKLIST_yourExpression.": <br /><pre>".htmlspecialchars(postVar("expression"), ENT_QUOTES).'</pre>';
+			$pblmessage = NP_BLACKLIST_yourExpression.": <br /><pre>".htmlspecialchars(postVar("expression"), ENT_QUOTES,_CHARSET).'</pre>';
 			$return = pbl_checkforspam(postVar("expression"), false, 0, false);
 
 			if (!$return == "") {
