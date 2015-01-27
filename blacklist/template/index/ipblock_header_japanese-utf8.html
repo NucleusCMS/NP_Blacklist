@@ -1,0 +1,23 @@
+<span style="color: red;">{{message}}</span>
+<h2>IPブラックリスト編集</h2>
+<p>IPアドレスは前方一致もしくは、CIDR形式(###.###.###.###/##)で指定できます。<br />
+例1）10. -> 10.0.0.0から10.255.255.255.255まで<br />
+例2）192.168.1.0/24 -> 192.168.1.0から192.168.1.255まで<p>
+<div class="pbform">
+	<form action="{{indexurl}}" method="post">
+		<input type="hidden" name="action" value="addipblock" />
+		<input type="hidden" name="ticket" value="{{ticket|}}" />
+		禁止リストに追加: 
+		<input class="pbltextinput" type="text" name="ipaddress" />
+		<input type="submit" value="追加" />
+	</form>
+</div>
+
+<h3>以下のIPアドレスからのアクセスを禁止しています</h3>
+
+<table>
+	<tr>
+		<th>IP Address</th>
+		<th>ホスト名</th>
+		<th>削除</th>
+	</tr>
