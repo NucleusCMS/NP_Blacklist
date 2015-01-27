@@ -214,7 +214,8 @@ class NP_Blacklist extends NucleusPlugin {
 
 		// setup settings
 		if ($this->_is_writable($settingsDir)) {
-			// setup distfile			foreach (glob($settingsDir.'*.dist') as $distfile) {
+			// setup distfile
+			foreach (glob($settingsDir.'*.dist') as $distfile) {
 				$userFile = substr($distfile, 0, strlen($distfile)-5);
 				if (!file_exists($userFile)) {
 					if (copy($distfile, $userFile)) {
