@@ -35,7 +35,7 @@
 	// create the admin area page
 	$oPluginAdmin = new PluginAdmin('Blacklist');
 	$oPluginAdmin->start();
-	$fb =& new cles_Feedback($oPluginAdmin);
+	$fb = new cles_Feedback($oPluginAdmin);
 	
 	// get the plugin options; stored in the DB
     $pbl_config['enabled']       = $oPluginAdmin->plugin->getOption('enabled');
@@ -54,7 +54,7 @@
 	    return $oPluginAdmin->plugin->plugid;
 	}
 	
-	$templateEngine =& new cles_Template(dirname(__FILE__).'/template');
+	$templateEngine = new cles_Template(dirname(__FILE__).'/template');
 	$templateEngine->defaultLang = 'english';
 	define('NP_BLACKLIST_TEMPLATEDIR_INDEX', 'index');
 	$tplVars = array(
@@ -130,7 +130,8 @@
 	global $pblmessage;
 	if($pblmessage)
 		$tplVars['message'] .= '<div class="pblmessage">'.$pblmessage.'</div>';
-		// show content
+	
+	// show content
 	$content = '';
 	switch($action){
 		case 'blacklist':

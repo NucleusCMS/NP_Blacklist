@@ -97,7 +97,8 @@ class NP_AddSpamCheckEvent extends NucleusPlugin {
 				return;
 		}
 
-		$manager->notify('SpamCheck', array ('spamcheck' => & $spamcheck));
+		$params = array ('spamcheck' => & $spamcheck);
+		$manager->notify('SpamCheck', $params);
 		if (isset($spamcheck['result']) && $spamcheck['result'] == true) {
 			if ($manager->pluginInstalled('NP_Blacklist')) {
 				$plugin = & $manager->getPlugin('NP_Blacklist');
