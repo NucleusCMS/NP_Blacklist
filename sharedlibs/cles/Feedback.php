@@ -2,10 +2,8 @@
 // vim: tabstop=2:shiftwidth=2
 
 /**
-  * Feedback.php ($Revision: 1.1 $)
   * 
   * by hsur ( http://blog.cles.jp/np_cles )
-  * $Id: Feedback.php,v 1.1 2008-05-04 00:41:54 hsur Exp $
 */
 
 /*

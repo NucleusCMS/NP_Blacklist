@@ -4,7 +4,6 @@
 * cache_file.php ($Revision: 1.2 $)
 * 
 * by hsur ( http://blog.cles.jp/np_cles )
-* $Id: cache_file.php,v 1.2 2007-02-02 16:48:24 hsur Exp $
 */
 
 function pbl_ipcache_write(){

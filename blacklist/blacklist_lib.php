@@ -19,7 +19,6 @@
 //
 // Modified by hsur
 // http://blog.cles.jp
-// $Id: blacklist_lib.php,v 1.13 2008-06-09 10:33:40 hsur Exp $
 
 define('__WEBLOG_ROOT', dirname(dirname(realpath(__FILE__))));
 define('__EXT', '/blacklist');

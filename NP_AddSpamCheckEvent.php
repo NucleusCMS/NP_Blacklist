@@ -2,9 +2,7 @@
 // vim: tabstop=2:shiftwidth=2
 
 /**
-  * NP_CommentSpamCheck ($Revision: 1.2 $)
   * by hsur ( http://blog.cles.jp/np_cles )
-  * $Id: NP_AddSpamCheckEvent.php,v 1.2 2007-03-06 20:54:37 hsur Exp $
 */
 
 /*

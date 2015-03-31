@@ -2,10 +2,8 @@
 // vim: tabstop=2:shiftwidth=2
 
 /**
-  * Template.php ($Revision: 1.1 $)
   * 
   * by hsur ( http://blog.cles.jp/np_cles )
-  * $Id: Template.php,v 1.1 2007-02-02 16:48:23 hsur Exp $
 */
 
 /*

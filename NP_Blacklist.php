@@ -1,9 +1,7 @@
 <?php
 
 /**
-  * NP_Blacklist(JP) ($Revision: 1.14 $)
   * by hsur ( http://blog.cles.jp/np_cles )
-  * $Id: NP_Blacklist.php,v 1.14 2008-06-09 10:33:40 hsur Exp $
   *
   * Based on NP_Blacklist 0.98
   * by xiffy

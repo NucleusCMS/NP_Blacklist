@@ -1,10 +1,8 @@
 <?php
 
 /**
-* cache_xcache.php ($Revision: 1.1 $)
 * 
 * by hsur ( http://blog.cles.jp/np_cles )
-* $Id: cache_xcache.php,v 1.1 2007-02-02 16:48:24 hsur Exp $
 */
 
 function pbl_ipcache_write(){
