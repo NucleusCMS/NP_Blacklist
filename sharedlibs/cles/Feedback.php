@@ -146,12 +146,12 @@ class cles_Feedback {
 	
 		if ($canDisable) {
 			echo "<td>".$desc."</td>\n";
-			echo "<td>".htmlspecialchars($value)."</td>\n";
-			echo '<td><input type="checkbox" name="'.htmlspecialchars($name).'" value="'.htmlspecialchars($value).'" /></td>'."\n";
+			echo "<td>".hsc($value)."</td>\n";
+			echo '<td><input type="checkbox" name="'.hsc($name).'" value="'.hsc($value).'" /></td>'."\n";
 		} else {
 			echo '<td><span style="font-weight:bold; color:red">'.$desc."</span></td>\n";
-			echo '<td><span style="font-weight:bold; color:red">'.htmlspecialchars($value)."</span></td>\n";
-			echo '<td><input type="checkbox" name="'.htmlspecialchars($name).'" value="'.htmlspecialchars($value).'" readonly="readonly" checked="checked"/></span></td>'."\n";
+			echo '<td><span style="font-weight:bold; color:red">'.hsc($value)."</span></td>\n";
+			echo '<td><input type="checkbox" name="'.hsc($name).'" value="'.hsc($value).'" readonly="readonly" checked="checked"/></span></td>'."\n";
 		}
 		echo "</tr>\n";
 	}
