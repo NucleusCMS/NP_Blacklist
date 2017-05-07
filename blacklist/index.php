@@ -8,8 +8,8 @@
 
 	include($DIR_LIBS . 'PLUGINADMIN.php');
 	require_once($DIR_PLUGINS . 'sharedlibs/sharedlibs.php');
-	require_once('cles/Template.php');
-	require_once('cles/Feedback.php');
+	require_once($DIR_PLUGINS . 'sharedlibs/cles/Template.php');
+	require_once($DIR_PLUGINS . 'sharedlibs/cles/Feedback.php');
 
 	if ($blogid) {$isblogadmin = $member->isBlogAdmin($blogid);}
 	else $isblogadmin = 0;
