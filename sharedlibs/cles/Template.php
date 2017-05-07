@@ -55,13 +55,9 @@ class cles_Template {
 				return '';
 		}
 		
-		$fsize = filesize($path);
-		if ($fsize <= 0) return '';
+		if (filesize($path) <= 0) return '';
 		
-		$fd = fopen($path, 'r');
-		$contents = fread($fd, $fsize);
-		fclose($fd);
-		return $contents;
+		return file_get_contents($path);
 	}
 	
 	function fill($template, $values, $default = null) {
