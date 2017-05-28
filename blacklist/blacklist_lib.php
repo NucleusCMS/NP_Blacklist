@@ -366,7 +366,7 @@ function check_for_iprbl() {
 }
 
 function check_for_domainrbl($comment_text) {
-	$domainrbl = array ('url.rbl.jp', 'bsb.spamlookup.net');
+	$domainrbl = array ('bsb.spamlookup.net');
 	$regex_url = "{https?://(?:www\.)?([a-z0-9._-]{2,})(?::[0-9]+)?((?:/[_.!~*a-z0-9;@&=+$,%-]+){0,2})}i";
 
 	$mk_regex_array = array ();
