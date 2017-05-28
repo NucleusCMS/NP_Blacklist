@@ -37,7 +37,7 @@
 
 class cles_Feedback {
 	var $oPluginAdmin;
-	function CLES_Feedback(&$pluginAdmin){
+	function __construct(&$pluginAdmin){
 		$this->oPluginAdmin = $pluginAdmin;
 	}
 	
@@ -88,7 +88,7 @@ class cles_Feedback {
 		echo "</tr>\n";
 
 		$res = sql_query("show variables like 'version'");
-		$assoc = mysql_fetch_assoc($res);
+		$assoc = sql_fetch_assoc($res);
 		$mysqlVersion = $assoc['Value'];
 		
 		if( function_exists('gd_info') )

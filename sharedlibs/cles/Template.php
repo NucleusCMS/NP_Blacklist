@@ -41,7 +41,7 @@ class cles_Template {
 	var $lang;
 	var $templateDir;
 
-	function cles_Template($templateDir) {
+	function __construct($templateDir) {
 		global $CONF;
 		$this->templateDir = $templateDir;
 		$this->lang = str_replace( array('/','\\'), '', getLanguageName());
