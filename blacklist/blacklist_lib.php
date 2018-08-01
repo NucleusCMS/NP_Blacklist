@@ -142,7 +142,7 @@ function pbl_blacklisteditor() {
 			$line ++;
 			$configParam = explode("####", $buffer);
 			$key = $configParam[0];
-			$value = $configParam[1];
+			$value = isset($configParam[1]) ? hsc($configParam[1]) : '';
 			if (strlen($key) > 0) {
 				echo "<tr>\n";
 				echo "<td>".hsc($key)."</td>\n";
