@@ -83,10 +83,10 @@ class NP_Blacklist extends NucleusPlugin {
 	function init() {
 		// include language file for this plugin 
 		$language = str_replace(array('/','\\'), '', getLanguageName());
-		if (file_exists($this->getDirectory().'language/'.$language.'.php'))
-			@ include_once ($this->getDirectory().'language/'.$language.'.php');
+		if (is_file($this->getDirectory().'language/'.$language.'.php'))
+			include_once ($this->getDirectory().'language/'.$language.'.php');
 		else
-			@ include_once ($this->getDirectory().'language/english.php');
+			include_once ($this->getDirectory().'language/english.php');
 		$this->resultCache = false;
 	}
 
