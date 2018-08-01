@@ -37,7 +37,7 @@
 
 class cles_Template {
 	var $defaultLang = 'japanese-utf8';
-	var $defalutPattern = '#{{(.*?)(\|)?}}#ie';
+	var $defalutPattern = '#{{(.*?)(\|)?}}#i';
 	var $lang;
 	var $templateDir;
 
@@ -55,27 +55,29 @@ class cles_Template {
 				return '';
 		}
 		
-		if (filesize($path) <= 0) return '';
+		$fsize = filesize($path);
+		if ($fsize <= 0) return '';
 		
 		return file_get_contents($path);
 	}
 	
 	function fill($template, $values, $default = null) {
 		if( $default )
-			return preg_replace($this->defalutPattern, 'isset($values["$1"]) ? ("$2" ? hsc($values["$1"]) : $values["$1"]) : $default', $template);
-		return $this->parseText($template,$values);
-		// return preg_replace($this->defalutPattern, 'isset($values["$1"]) ? ("$2" ? hsc($values["$1"]) : $values["$1"]) : "{{$1}}" ', $template);
-
-	}
-	function parseText($tpl,$ph) {
-		foreach($ph as $k=>$v) {
-			$k = '{{' . $k . '}}';
-			$tpl = str_replace($k,$v,$tpl);
-		}
-		foreach($ph as $k=>$v) {
-			$k = '{{' . $k . '|}}';
-			$tpl = str_replace($k,hsc($v),$tpl);
-		}
-		return $tpl;
+			return preg_replace_callback($this->defalutPattern,
+				function($m) use($values,$default) {
+					if(!isset($values[$m[1]])) {
+						return $default;
+					}
+					return $m[2] ? hsc($values[$m[1]]) : $values[$m[1]];
+				}, $template);
+		if( $default === null )
+			return preg_replace_callback($this->defalutPattern,
+				function($m) {
+					return $m[2] ? hsc($values[$m[1]]) : $values[$m[1]];
+				}, $template);
+		return preg_replace_callback($this->defalutPattern,
+			function($m) use($values) {
+				return isset($values[$m[1]]) ? (isset($m[2])&&$m[2] ? hsc($values[$m[1]]) : $values[$m[1]]) : $m[1];
+			}, $template);
 	}
 }
