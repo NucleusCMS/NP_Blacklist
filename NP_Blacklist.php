@@ -100,7 +100,7 @@ class NP_Blacklist extends NucleusPlugin {
 		}
 		if (!($member->isLoggedIn() && ($member->isAdmin() | $isblogadmin)))
 			return;
-		array_push($data['options'], array ('title' => NP_BLACKLIST_name, 'url' => $this->getAdminURL(), 'tooltip' => NP_BLACKLIST_nameTips,));
+		$data['options'][] = array('title' => NP_BLACKLIST_name, 'url' => $this->getAdminURL(), 'tooltip' => NP_BLACKLIST_nameTips,);
 	}
 
 	// handle SpamCheck event
@@ -143,16 +143,16 @@ class NP_Blacklist extends NucleusPlugin {
 			// Spam found
 			// logging !
 			pbl_logspammer($data['spamcheck']['type'].': '.$result);
-			if (isset ($data['spamcheck']['return']) && $data['spamcheck']['return'] == true) {
-				// Return to caller
-				$data['spamcheck']['result'] = true;
-				$data['spamcheck']['plugin'] = $this->getName();
-				$data['spamcheck']['message'] = 'Marked as spam by NP_Blacklist';
-				return;
-			} else {
-				$this->_redirect($this->getOption('redirect'));
-			}
-		}
+			if (!isset ($data['spamcheck']['return']) || $data['spamcheck']['return'] != true) {
+                $this->_redirect($this->getOption('redirect'));
+                return;
+            }
+            // Return to caller
+            $data['spamcheck']['result'] = true;
+            $data['spamcheck']['plugin'] = $this->getName();
+            $data['spamcheck']['message'] = 'Marked as spam by NP_Blacklist';
+            return;
+        }
 	}
 
 	function blacklist($type, $testString, $ipblock = true) {
@@ -164,32 +164,34 @@ class NP_Blacklist extends NucleusPlugin {
 			return '';
 		}
 
-		if ($this->getOption('enabled') == 'yes') {
-			// update the blacklist first file
-			//pbl_updateblacklist($this->getOption('update'),false);
-			if ($ipblock) {
-				$ipblock = ($this->getOption('ipblock') == 'yes') ? true : false;
-			}
+		if ($this->getOption('enabled') !== 'yes') {
+            return;
+        }
 
-			$result = '';
-			if ($ipblock || $testString != '') {
-				$result = pbl_checkforspam($testString, $ipblock, $this->getOption('ipthreshold'), true);
-			}
+        // update the blacklist first file
+        //pbl_updateblacklist($this->getOption('update'),false);
+        if ($ipblock) {
+            $ipblock = ($this->getOption('ipblock') === 'yes') ? true : false;
+        }
 
-			if ($result) {
-				$this->resultCache = $result;
-			}
+        $result = '';
+        if ($ipblock || $testString != '') {
+            $result = pbl_checkforspam($testString, $ipblock, $this->getOption('ipthreshold'), true);
+        }
 
-			return $result;
-		}
-	}
+        if ($result) {
+            $this->resultCache = $result;
+        }
+
+        return $result;
+    }
 
 	function _redirect($url) {
 		if (!$url) {
 			header("HTTP/1.0 403 Forbidden");
 			header("Status: 403 Forbidden");
 
-			include (dirname(__FILE__).'/blacklist/blocked.txt');
+			include (__DIR__ .'/blacklist/blocked.txt');
 		} else {
 			$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:@%]|i', '', $url);
 			header('Location: '.$url);
@@ -198,7 +200,7 @@ class NP_Blacklist extends NucleusPlugin {
 	}
 
 	function _initSettings() {
-		$settingsDir = dirname(__FILE__).'/blacklist/settings/';
+		$settingsDir = __DIR__ .'/blacklist/settings/';
 		$settings = array (
 			'blacklist.log', 
 			'blockip.pbl', 
@@ -251,5 +253,4 @@ class NP_Blacklist extends NucleusPlugin {
 	function _warn($msg) {
 		ACTIONLOG :: add(WARNING, 'Blacklist: '.$msg);
 	}
-
 }
