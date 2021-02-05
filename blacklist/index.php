@@ -45,15 +45,6 @@
     $pbl_config['BulkfeedsKey']   = $oPluginAdmin->plugin->getOption('BulkfeedsKey');
     $pbl_config['SkipNameResolve']   = $oPluginAdmin->plugin->getOption('SkipNameResolve');
 
-	function getPluginOption($name) {
-	    global $pbl_config;
-	    return $pbl_config[$name];
-	}
-	function getPlugid() {
-	    global $oPluginAdmin;
-	    return $oPluginAdmin->plugin->plugid;
-	}
-	
 	$templateEngine = new cles_Template(dirname(__FILE__).'/template');
 	$templateEngine->defaultLang = 'english';
 	define('NP_BLACKLIST_TEMPLATEDIR_INDEX', 'index');
@@ -203,3 +194,13 @@
 	echo $templateEngine->fill($footer, $tplVars, false);
 	
 	$oPluginAdmin->end();
+
+function getPluginOption($name) {
+    global $pbl_config;
+    return $pbl_config[$name];
+}
+function getPlugid() {
+    global $oPluginAdmin;
+    return $oPluginAdmin->plugin->plugid;
+}
+	
