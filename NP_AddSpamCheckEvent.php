@@ -2,8 +2,8 @@
 // vim: tabstop=2:shiftwidth=2
 
 /**
-  * by hsur ( http://blog.cles.jp/np_cles )
-*/
+ * by hsur ( http://blog.cles.jp/np_cles )
+ */
 
 /*
   * Copyright (C) 2007 cles All rights reserved.
@@ -34,72 +34,81 @@
   * this exception statement from your version.
 */
 
-class NP_AddSpamCheckEvent extends NucleusPlugin {
-	function getName() {
+class NP_AddSpamCheckEvent extends NucleusPlugin
+{
+	function getName()
+	{
 		return 'AddSpamCheckEvent';
 	}
-	function getAuthor() {
+	function getAuthor()
+	{
 		return 'hsur';
 	}
-	function getURL() {
+	function getURL()
+	{
 		return 'http://blog.cles.jp/np_cles/';
 	}
-	function getVersion() {
+	function getVersion()
+	{
 		return '1.2.0';
 	}
-	function getDescription() {
+	function getDescription()
+	{
 		return 'Add SpamCheck event';
 	}
-	function supportsFeature($what) {
+	function supportsFeature($what)
+	{
 		switch ($what) {
-			case 'SqlTablePrefix' :
+			case 'SqlTablePrefix':
 				return 1;
-			default :
+			default:
 				return 0;
 		}
 	}
 
-	function getEventList() {
-		return array ('ValidateForm');
+	function getEventList()
+	{
+		return array('ValidateForm');
 	}
 
-	function event_ValidateForm(& $data) {
+	function event_ValidateForm(&$data)
+	{
 		global $manager, $member;
 		if ($member->isLoggedIn())
 			return;
-			
+
 		$spamcheck = array();
-		switch( $data['type'] ){
+		switch ($data['type']) {
 			case 'membermail':
-				$spamcheck = array (
-					'type' => 'membermail', 
-					'data' => postVar('frommail')."\n".postVar('message'), 
-					'live' => true, 
+				$spamcheck = array(
+					'type' => 'membermail',
+					'data' => postVar('frommail') . "\n" . postVar('message'),
+					'live' => true,
 					'return' => true,
 				);
 				break;
 			case 'comment':
-				$spamcheck = array (
-					'type' => 'comment', 
-					'body' => postVar('body'), 
-					'author' => $data['comment']['user'], 
-					'url' => $data['comment']['userid'], 
-					'id' => intval($data['comment']['itemid']), 
-					'live' => true, 
+				$spamcheck = array(
+					'type' => 'comment',
+					'body' => postVar('body'),
+					'author' => $data['comment']['user'],
+					'url' => $data['comment']['userid'],
+					'id' => intval($data['comment']['itemid']),
+					'live' => true,
 					'return' => true,
 					//SpamCheck API1 Compat
-					'data' => postVar('body')."\n".$data['comment']['user']."\n".$data['comment']['userid'],
+					'data' => postVar('body') . "\n" . $data['comment']['user'] . "\n" . $data['comment']['userid'],
 				);
 				break;
 			default:
 				return;
 		}
 
-		$params = array ('spamcheck' => & $spamcheck);
+		$params = array('spamcheck' => &$spamcheck);
 		$manager->notify('SpamCheck', $params);
 		if (isset($spamcheck['result']) && $spamcheck['result'] == true) {
 			if ($manager->pluginInstalled('NP_Blacklist')) {
-				$plugin = & $manager->getPlugin('NP_Blacklist');
+				$plugin = &$manager->getPlugin('NP_Blacklist');
 				$plugin->_redirect($plugin->getOption('redirect'));
 			} else {
 				$this->_showForbiddenMessage($spamcheck['message']);
@@ -107,10 +116,11 @@ class NP_AddSpamCheckEvent extends NucleusPlugin {
 		}
 	}
 
-	function _showForbiddenMessage($message = '') {
+	function _showForbiddenMessage($message = '')
+	{
 		header("HTTP/1.0 403 Forbidden");
 		header("Status: 403 Forbidden");
-		echo '<html><header><title>403 Forbidden</title></header><body><h1>403 Forbidden</h1><p>'.$message.'</p></body></html>';
+		echo '<html><header><title>403 Forbidden</title></header><body><h1>403 Forbidden</h1><p>' . $message . '</p></body></html>';
 		exit;
 	}
 }
