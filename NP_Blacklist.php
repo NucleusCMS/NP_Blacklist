@@ -26,7 +26,7 @@
   * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 */
 
-require_once(dirname(__FILE__) . "/blacklist/blacklist_lib.php");
+require_once(__DIR__ . "/blacklist/blacklist_lib.php");
 
 class NP_Blacklist extends NucleusPlugin
 {
@@ -96,10 +96,11 @@ class NP_Blacklist extends NucleusPlugin
 	{
 		// include language file for this plugin 
 		$language = str_replace(array('/', '\\'), '', getLanguageName());
-		if (is_file($this->getDirectory() . 'language/' . $language . '.php'))
-			include_once($this->getDirectory() . 'language/' . $language . '.php');
-		else
-			include_once($this->getDirectory() . 'language/english.php');
+		if (is_file($this->getDirectory() . 'language/' . $language . '.php')) {
+            include_once($this->getDirectory() . 'language/' . $language . '.php');
+        } else {
+            include_once($this->getDirectory() . 'language/english.php');
+        }
 		$this->resultCache = false;
 	}
 
@@ -181,7 +182,7 @@ class NP_Blacklist extends NucleusPlugin
 		}
 
 		if ($this->getOption('enabled') !== 'yes') {
-			return;
+			return '';
 		}
 
 		// update the blacklist first file
@@ -264,7 +265,7 @@ class NP_Blacklist extends NucleusPlugin
 	{
 		$ret = is_writable($file);
 		if (!$ret) {
-			$this->_warn("'$file' " . NP_BLACKLIST_isNotWritable);
+			$this->_warn(sprintf("'%s' %s", $file, NP_BLACKLIST_isNotWritable));
 		}
 		return $ret;
 	}
