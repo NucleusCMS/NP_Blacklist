@@ -2,9 +2,9 @@
 // vim: tabstop=2:shiftwidth=2
 
 /**
-  * 
-  * by hsur ( http://blog.cles.jp/np_cles )
-*/
+ * 
+ * by hsur ( http://blog.cles.jp/np_cles )
+ */
 
 /*
   * Copyright (C) 2006 CLES. All rights reserved.
@@ -36,14 +36,14 @@
 */
 
 if (!defined('NP_SHAREDLIBS_LOADED')) {
-	if (!defined('PATH_SEPARATOR')) {
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			define('PATH_SEPARATOR', ';');
-		} else {
-			define('PATH_SEPARATOR', ':');
-		}
-	}
-	ini_set('include_path', dirname(__FILE__).PATH_SEPARATOR.ini_get('include_path'));
+    if (!defined('PATH_SEPARATOR')) {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            define('PATH_SEPARATOR', ';');
+        } else {
+            define('PATH_SEPARATOR', ':');
+        }
+    }
+    ini_set('include_path', __DIR__ . PATH_SEPARATOR . ini_get('include_path'));
 
-	define('NP_SHAREDLIBS_LOADED', true);
+    define('NP_SHAREDLIBS_LOADED', true);
 }

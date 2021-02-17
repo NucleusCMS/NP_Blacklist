@@ -36,91 +36,90 @@
 
 class NP_AddSpamCheckEvent extends NucleusPlugin
 {
-	function getName()
-	{
-		return 'AddSpamCheckEvent';
-	}
-	function getAuthor()
-	{
-		return 'hsur';
-	}
-	function getURL()
-	{
-		return 'http://blog.cles.jp/np_cles/';
-	}
-	function getVersion()
-	{
-		return '1.2.0';
-	}
-	function getDescription()
-	{
-		return 'Add SpamCheck event';
-	}
-	function supportsFeature($what)
-	{
-		switch ($what) {
-			case 'SqlTablePrefix':
-				return 1;
-			default:
-				return 0;
-		}
-	}
+    function getName()
+    {
+        return 'AddSpamCheckEvent';
+    }
+    function getAuthor()
+    {
+        return 'hsur';
+    }
+    function getURL()
+    {
+        return 'http://blog.cles.jp/np_cles/';
+    }
+    function getVersion()
+    {
+        return '1.2.0';
+    }
+    function getDescription()
+    {
+        return 'Add SpamCheck event';
+    }
+    function supportsFeature($what)
+    {
+        switch ($what) {
+            case 'SqlTablePrefix':
+                return 1;
+            default:
+                return 0;
+        }
+    }
 
-	function getEventList()
-	{
-		return array('ValidateForm');
-	}
+    function getEventList()
+    {
+        return array('ValidateForm');
+    }
 
-	function event_ValidateForm(&$data)
-	{
-		global $manager, $member;
-		if ($member->isLoggedIn())
-			return;
+    function event_ValidateForm(&$data)
+    {
+        global $manager, $member;
+        if ($member->isLoggedIn())
+            return;
 
-		$spamcheck = array();
-		switch ($data['type']) {
-			case 'membermail':
-				$spamcheck = array(
-					'type' => 'membermail',
-					'data' => postVar('frommail') . "\n" . postVar('message'),
-					'live' => true,
-					'return' => true,
-				);
-				break;
-			case 'comment':
-				$spamcheck = array(
-					'type' => 'comment',
-					'body' => postVar('body'),
-					'author' => $data['comment']['user'],
-					'url' => $data['comment']['userid'],
-					'id' => intval($data['comment']['itemid']),
-					'live' => true,
-					'return' => true,
-					//SpamCheck API1 Compat
-					'data' => postVar('body') . "\n" . $data['comment']['user'] . "\n" . $data['comment']['userid'],
-				);
-				break;
-			default:
-				return;
-		}
+        switch ($data['type']) {
+            case 'membermail':
+                $spamcheck = array(
+                    'type' => 'membermail',
+                    'data' => postVar('frommail') . "\n" . postVar('message'),
+                    'live' => true,
+                    'return' => true,
+                );
+                break;
+            case 'comment':
+                $spamcheck = array(
+                    'type' => 'comment',
+                    'body' => postVar('body'),
+                    'author' => $data['comment']['user'],
+                    'url' => $data['comment']['userid'],
+                    'id' => (int)$data['comment']['itemid'],
+                    'live' => true,
+                    'return' => true,
+                    //SpamCheck API1 Compat
+                    'data' => postVar('body') . "\n" . $data['comment']['user'] . "\n" . $data['comment']['userid'],
+                );
+                break;
+            default:
+                return;
+        }
 
-		$params = array('spamcheck' => &$spamcheck);
-		$manager->notify('SpamCheck', $params);
-		if (isset($spamcheck['result']) && $spamcheck['result'] == true) {
-			if ($manager->pluginInstalled('NP_Blacklist')) {
-				$plugin = &$manager->getPlugin('NP_Blacklist');
-				$plugin->_redirect($plugin->getOption('redirect'));
-			} else {
-				$this->_showForbiddenMessage($spamcheck['message']);
-			}
-		}
-	}
+        $params = array('spamcheck' => &$spamcheck);
+        $manager->notify('SpamCheck', $params);
+        if (isset($spamcheck['result']) && $spamcheck['result'] == true) {
+            if ($manager->pluginInstalled('NP_Blacklist')) {
+                $plugin = &$manager->getPlugin('NP_Blacklist');
+                $plugin->_redirect($plugin->getOption('redirect'));
+            } else {
+                $this->_showForbiddenMessage($spamcheck['message']);
+            }
+        }
+    }
 
-	function _showForbiddenMessage($message = '')
-	{
-		header("HTTP/1.0 403 Forbidden");
-		header("Status: 403 Forbidden");
-		echo '<html><header><title>403 Forbidden</title></header><body><h1>403 Forbidden</h1><p>' . $message . '</p></body></html>';
-		exit;
-	}
+    function _showForbiddenMessage($message = '')
+    {
+        header("HTTP/1.0 403 Forbidden");
+        header("Status: 403 Forbidden");
+        echo '<html><header><title>403 Forbidden</title></header><body><h1>403 Forbidden</h1><p>' . $message . '</p></body></html>';
+        exit;
+    }
 }
