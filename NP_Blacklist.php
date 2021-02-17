@@ -271,6 +271,6 @@ class NP_Blacklist extends NucleusPlugin
 
 	function _warn($msg)
 	{
-		ACTIONLOG::add(WARNING, 'Blacklist: ' . $msg);
+		ACTIONLOG::add('WARNING', 'Blacklist: ' . $msg);
 	}
 }
